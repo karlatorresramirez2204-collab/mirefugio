@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Refugio de Gracia</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #FFFDD0; color: #4B3621; display: flex; flex-direction: column; align-items: center; padding: 20px; margin: 0; }
+        h1 { color: #8B7355; margin-bottom: 10px; }
+        .container { max-width: 400px; width: 100%; background: white; padding: 20px; border-radius: 25px; box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
+        .section-title { font-size: 1.2rem; margin-top: 20px; border-bottom: 2px solid #F5F5DC; padding-bottom: 5px; }
+        .btn { width: 100%; padding: 15px; margin: 10px 0; border: none; border-radius: 15px; font-size: 1rem; cursor: pointer; transition: transform 0.2s; font-weight: bold; }
+        .btn:active { transform: scale(0.95); }
+        .btn-siembra { background-color: #F5F5DC; color: #8B7355; }
+        .btn-siembra.done { text-decoration: line-through; opacity: 0.6; }
+        .btn-oracion { background-color: #FFB6C1; color: white; }
+        .btn-ia { background-color: #87CEFA; color: white; }
+        .btn-palabra { background-color: #FFFACD; color: #8B7355; }
+        .btn-musica { background-color: #98FF98; color: #2E8B57; }
+        .timer { font-size: 2rem; margin: 20px 0; color: #8B7355; }
+        #recompensas { display: none; }
+    </style>
+</head>
+<body>
+
+    <h1>Mi Tiempo de Cosecha</h1>
+    <div class="container">
+        <div id="siembra-section">
+            <p class="section-title">Logística de Siembra (Haz clic para completar)</p>
+            <button class="btn btn-siembra" onclick="this.classList.toggle('done'); verificarSiembra();">✓ Mercado y Comida</button>
+            <button class="btn btn-siembra" onclick="this.classList.toggle('done'); verificarSiembra();">✓ Atención a Perritos</button>
+            <button class="btn btn-siembra" onclick="this.classList.toggle('done'); verificarSiembra();">✓ Escuela de la Nena</button>
+            <p id="mensaje-guia" style="font-style: italic; text-align: center;">Completa tu siembra para liberar tus premios...</p>
+        </div>
+
+        <div id="recompensas">
+            <p class="section-title">¡Tus Regalos de Hoy!</p>
+            <button class="btn btn-oracion" onclick="iniciarRegalo('Café con Dios ☕')">Café con Dios</button>
+            <button class="btn btn-ia" onclick="iniciarRegalo('Laboratorio IA 🤖')">Laboratorio IA</button>
+            <button class="btn btn-palabra" onclick="iniciarRegalo('Inspiración Palabra 📖')">Inspiración Palabra</button>
+            <button class="btn btn-musica" onclick="iniciarRegalo('Refugio Musical 🎸')">Refugio Musical</button>
+            
+            <div id="timer-display" style="display:none; text-align: center;">
+                <h2 id="regalo-actual"></h2>
+                <div class="timer" id="clock">00:00</div>
+                <button class="btn" style="background:#ddd" onclick="detenerRegalo()">Cerrar con Gratitud</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let segundos = 0;
+        let intervalo;
+
+        function verificarSiembra() {
+            const tareas = document.querySelectorAll('.btn-siembra.done');
+            if(tareas.length === 3) {
+                document.getElementById('recompensas').style.display = 'block';
+                document.getElementById('mensaje-guia').innerText = "¡Excelente! Ahora tu tiempo es tuyo.";
+            }
+        }
+
+        function iniciarRegalo(nombre) {
+            document.getElementById('regalo-actual').innerText = nombre;
+            document.getElementById('timer-display').style.display = 'block';
+            segundos = 0;
+            clearInterval(intervalo);
+            intervalo = setInterval(() => {
+                segundos++;
+                let min = Math.floor(segundos / 60).toString().padStart(2, '0');
+                let sec = (segundos % 60).toString().padStart(2, '0');
+                document.getElementById('clock').innerText = `${min}:${sec}`;
+            }, 1000);
+        }
+
+        function detenerRegalo() {
+            clearInterval(intervalo);
+            alert("Gracias por dedicarte este tiempo. ¡Sigue así, vas por buen camino!");
+            document.getElementById('timer-display').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
